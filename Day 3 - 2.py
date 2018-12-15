@@ -9,15 +9,22 @@ def open_file():
 
 def find_stuff(content):
     pattern = re.compile('(\d+)')
-
+    ids = set()
     fabric = np.zeros((1000, 1000), dtype=int)
     for line in content:
         temp = list(map(int, (re.findall(pattern, line))))
         identity, x, y, dx, dy = temp
+        ids.add(identity)
         for a in range(x, x + dx):
             for b in range(y, y + dy):
-                fabric[a, b] += 1
-    return len(list(filter(lambda z: z > 1, np.asarray(fabric.ravel()))))
+                el = fabric[a, b]
+                if el != 0:
+                    if el in ids:
+                        ids.remove(el)
+                    if identity in ids:
+                        ids.remove(identity)
+                fabric[a, b] = identity
+    return ids
 
 
 result = find_stuff(open_file())
