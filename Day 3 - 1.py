@@ -9,9 +9,16 @@ def open_file():
 
 def find_stuff(content):
     pattern = re.compile('(\d+)')
+
     fabric = np.zeros((1000, 1000), dtype=int)
     for line in content:
-        x1, x2, x3, x4, x5 = re.findall(pattern, line)
+        temp = list(map(int, (re.findall(pattern, line))))
+        _, x, y, dx, dy = temp
+        for a in range(x, x + dx):
+            for b in range(y, y + dy):
+                fabric[a, b] += 1
+    return len(list(filter(lambda z: z > 1, np.asarray(fabric.ravel()))))
 
 
-find_stuff(open_file())
+result = find_stuff(open_file())
+print(result)
