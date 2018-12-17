@@ -18,7 +18,6 @@ def checksum(lines):
     return twice*thrice
 
 
-
 content = open_file()
 result = checksum(content)
 print(result)
